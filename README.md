@@ -77,9 +77,6 @@ WhatsApp ou les réseaux sociaux restera cassé :
 
 Elles sont regroupées en haut du fichier, sous un commentaire qui les signale.
 
-Il faut aussi remplacer `TON-COMPTE` par votre nom d'utilisateur GitHub dans
-les **trois** liens de téléchargement.
-
 ## Deux choses à savoir avant de retoucher
 
 **Les couleurs passent toutes par des jetons**, définis en haut de
