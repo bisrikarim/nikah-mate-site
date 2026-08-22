@@ -288,6 +288,16 @@ a { color: var(--rose-ink); text-decoration-thickness: 1px; text-underline-offse
   line-height: 1.25; box-shadow: 0 1px 2px var(--shade);
 }
 
+@media (max-width: 26rem) {
+  .store { min-width: 0; flex: 1; }
+  .cta-row { width: 100%; }
+}
+.store .small {
+  font-family: "DM Mono", ui-monospace, monospace; font-size: 0.66rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+}
+.store .big { font-size: 0.98rem; font-weight: 700; color: var(--ink); }
+
 /* Le téléchargement est l'action principale : elle est pleine, les autres
    restent en contour. C'est un <a>, d'où la remise à zéro du soulignement. */
 .store--go {
@@ -303,16 +313,6 @@ a { color: var(--rose-ink); text-decoration-thickness: 1px; text-underline-offse
 
 .store--go:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px var(--cta-bg); }
 .store--go:active { transform: none; }
-
-@media (max-width: 26rem) {
-  .store { min-width: 0; flex: 1; }
-  .cta-row { width: 100%; }
-}
-.store .small {
-  font-family: "DM Mono", ui-monospace, monospace; font-size: 0.66rem;
-  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
-}
-.store .big { font-size: 0.98rem; font-weight: 700; color: var(--ink); }
 
 .scroll-hint {
   position: absolute; bottom: var(--s-3); left: 50%; transform: translateX(-50%);
