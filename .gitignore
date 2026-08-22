@@ -1,0 +1,15 @@
+# Dépendances éventuelles (le site n'en a aucune aujourd'hui)
+node_modules/
+
+# Réglages locaux de Netlify
+.netlify/
+
+# L'APK ne se met JAMAIS dans le dépôt : Git garderait chaque version pour
+# toujours, et le dépôt grossirait de 50 Mo à chaque build. Il se publie en
+# pièce jointe d'une « Release » GitHub — voir README.md.
+*.apk
+*.aab
+
+# Système
+.DS_Store
+Thumbs.db

@@ -1,0 +1,39 @@
+# Déploiement de la page de présentation.
+# Le dépôt ne contient que le site : on publie sa racine.
+
+[build]
+  publish = "."
+  # Rien à compiler : la page est du HTML, du CSS et du JS écrits à la main.
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+
+# Les images ne changent jamais sans changer de nom : on les garde un an.
+[[headers]]
+  for = "/assets/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# La feuille de style et le script, eux, changent à chaque retouche.
+# On laisse le navigateur revalider : il ne retélécharge que si le contenu
+# a bougé, et une correction est visible tout de suite.
+[[headers]]
+  for = "/assets/styles.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/app.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
