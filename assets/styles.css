@@ -290,7 +290,7 @@ a { color: var(--rose-ink); text-decoration-thickness: 1px; text-underline-offse
 }
 
 .store-ico { width: 1.6rem; height: 1.6rem; flex: none; }
-.store-tx { display: flex; flex-direction: column; }
+.store-tx { display: flex; flex-direction: column; align-items: center; text-align: center; }
 
 .store:hover { transform: translateY(-1px); border-color: var(--ink-mute); }
 .store:active { transform: none; }
