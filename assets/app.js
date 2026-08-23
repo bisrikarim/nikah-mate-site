@@ -34,23 +34,93 @@
   }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
   document.querySelectorAll('.rise').forEach((el) => io.observe(el));
 
+  /* ─────── Textes des écrans, selon la langue de la page ───────
+     Le script est partagé par les deux versions du site : il lit
+     « lang » sur <html> et pioche dans le bon jeu de textes. Un seul
+     fichier, donc une seule logique à maintenir. */
+  const LANG = document.documentElement.lang === 'ar' ? 'ar' : 'fr';
+
+  const TEXTES = {
+    fr: {
+      lock: 'Photo privée', compat: 'Compatibilité', communs: 'Points communs : ',
+      mariage: 'Mariage : ', apropos: 'À propos', fiche: 'Voir la fiche complète',
+      attente: 'En attente', acceptee: 'Acceptée', maintenant: 'à l’instant',
+      restantes: (n) => n > 1 ? `${n} demandes en attente`
+                      : n === 1 ? '1 demande en attente'
+                      : 'Aucune demande en attente',
+      profils: [
+        { nom: 'Badr, 36', ville: 'Rabat, Maroc',
+          cp: 'même intention, même pratique, enfants',
+          bio: 'Croyant et posé, je cherche une épouse pratiquante et sincère.',
+          quand: 'Dans les 6 mois' },
+        { nom: 'Ilyas, 33', ville: 'Casablanca, Maroc',
+          cp: 'même pratique, même ville, langues',
+          bio: 'Ingénieur réseaux. Je souhaite fonder un foyer paisible, in sha Allah.',
+          quand: 'Dès que possible' },
+        { nom: 'Aymane, 31', ville: 'Casablanca, Maroc',
+          cp: 'même intention, enfants, langues',
+          bio: 'Discret et attaché à ma famille. Je cherche une relation sérieuse.',
+          quand: 'Dans l’année' },
+      ],
+      demandes: [
+        { nom: 'Badr, 36', lieu: 'Rabat · très pratiquant', mot: '« Assalamu alaykum, je cherche à me marier in sha Allah »' },
+        { nom: 'Ilyas, 33', lieu: 'Casablanca · très pratiquant', mot: '« Salam, votre profil correspond à ce que je recherche »' },
+        { nom: 'Aymane, 31', lieu: 'Casablanca · très pratiquant', mot: '« Salam alaykum, sincèrement intéressé »' },
+        { nom: 'Karim, 37', lieu: 'Casablanca · très pratiquant', mot: '« Bonjour, j’aimerais faire votre connaissance »' },
+      ],
+      convs: ['Ismail', 'Anas', 'Hamza', 'Omar', 'Youssef', 'Karim'],
+      salam: 'Salam', demarrer: 'Démarrez la conversation', ilya: '2 j',
+      nouveaux: [
+        'Wa alaykum salam, merci pour votre message',
+        'Barak Allahu fik, j’en parle à ma famille',
+        'D’accord pour que nos walis se parlent',
+      ],
+    },
+    ar: {
+      lock: 'صورة خاصة', compat: 'التوافق', communs: 'نقاط مشتركة: ',
+      mariage: 'الزواج: ', apropos: 'نبذة', fiche: 'عرض الملف كاملاً',
+      attente: 'في الانتظار', acceptee: 'مقبولة', maintenant: 'الآن',
+      restantes: (n) => n > 1 ? `${n} طلبات في الانتظار`
+                      : n === 1 ? 'طلب واحد في الانتظار'
+                      : 'لا توجد طلبات في الانتظار',
+      profils: [
+        { nom: 'بدر، 36', ville: 'الرباط، المغرب',
+          cp: 'نفس النية، نفس الالتزام، الأطفال',
+          bio: 'مؤمن وهادئ، أبحث عن زوجة ملتزمة وصادقة.',
+          quand: 'خلال 6 أشهر' },
+        { nom: 'إلياس، 33', ville: 'الدار البيضاء، المغرب',
+          cp: 'نفس الالتزام، نفس المدينة، اللغات',
+          bio: 'مهندس شبكات. أرغب في تأسيس بيت هادئ، إن شاء الله.',
+          quand: 'في أقرب وقت' },
+        { nom: 'أيمن، 31', ville: 'الدار البيضاء، المغرب',
+          cp: 'نفس النية، الأطفال، اللغات',
+          bio: 'كتوم ومتعلق بعائلتي. أبحث عن علاقة جادة.',
+          quand: 'خلال السنة' },
+      ],
+      demandes: [
+        { nom: 'بدر، 36', lieu: 'الرباط · ملتزم جداً', mot: '«السلام عليكم، أبحث عن الزواج إن شاء الله»' },
+        { nom: 'إلياس، 33', lieu: 'الدار البيضاء · ملتزم جداً', mot: '«سلام، ملفك يوافق ما أبحث عنه»' },
+        { nom: 'أيمن، 31', lieu: 'الدار البيضاء · ملتزم جداً', mot: '«السلام عليكم، مهتم بصدق»' },
+        { nom: 'كريم، 37', lieu: 'الدار البيضاء · ملتزم جداً', mot: '«مرحباً، أودّ التعرف عليك»' },
+      ],
+      convs: ['إسماعيل', 'أنس', 'حمزة', 'عمر', 'يوسف', 'كريم'],
+      salam: 'سلام', demarrer: 'ابدأ المحادثة', ilya: 'يومان',
+      nouveaux: [
+        'وعليكم السلام، شكراً على رسالتك',
+        'بارك الله فيك، سأتحدث مع عائلتي',
+        'موافق على أن يتواصل وليّانا',
+      ],
+    },
+  };
+
+  const T = TEXTES[LANG];
+
   /* ══════════ ÉCRAN 1 — DÉCOUVRIR ══════════
      La pile de cartes tourne, le point glisse sous l'onglet actif, et le
      cœur bat au moment où la carte part : le geste qu'on ferait au doigt. */
-  const PROFILS = [
-    { nom: 'Badr, 36',   ville: 'Rabat, Maroc',     score: 86, teinte: 205,
-      cp: 'même intention, même pratique, enfants',
-      bio: 'Croyant et posé, je cherche une épouse pratiquante et sincère.',
-      quand: 'Dans les 6 mois' },
-    { nom: 'Ilyas, 33',  ville: 'Casablanca, Maroc', score: 78, teinte: 28,
-      cp: 'même pratique, même ville, langues',
-      bio: 'Ingénieur réseaux. Je souhaite fonder un foyer paisible, in sha Allah.',
-      quand: "Dès que possible" },
-    { nom: 'Aymane, 31', ville: 'Casablanca, Maroc', score: 74, teinte: 152,
-      cp: 'même intention, enfants, langues',
-      bio: 'Discret et attaché à ma famille. Je cherche une relation sérieuse.',
-      quand: 'Dans l’année' },
-  ];
+  const SCORES = [86, 78, 74];
+  const TEINTES = [205, 28, 152];
+  const PROFILS = T.profils.map((p, i) => ({ ...p, score: SCORES[i], teinte: TEINTES[i] }));
 
   const RR = 16, CC = 2 * Math.PI * RR;
   const dStack = document.getElementById('d-stack');
@@ -65,7 +135,7 @@
           radial-gradient(64% 56% at 70% 72%, hsl(${p.teinte + 24} 26% 44%), transparent 72%),
           linear-gradient(155deg, hsl(${p.teinte} 22% 78%), hsl(${p.teinte + 30} 20% 46%))"></div>
         <div class="veil"></div>
-        <span class="lock">${ICO('i-lock', 8, 'stroke-width="2.8"')} Photo privée</span>
+        <span class="lock">${ICO('i-lock', 8, 'stroke-width="2.8"')} ${T.lock}</span>
         <div class="who">
           <div class="nm">${p.nom} ${ICO('i-check-c', 10, 'stroke-width="2.4"')}</div>
           <div class="ct">${ICO('i-pin', 8, 'stroke-width="2.4"')} ${p.ville}</div>
@@ -83,13 +153,13 @@
             <span class="val">${p.score}</span>
           </div>
           <div style="min-width:0">
-            <div class="lb">Compatibilité</div>
-            <div class="cp">Points communs : ${p.cp}</div>
+            <div class="lb">${T.compat}</div>
+            <div class="cp">${T.communs}${p.cp}</div>
           </div>
         </div>
-        <span class="a-pill a-pill--rose">${ICO('i-heart', 8, 'fill="currentColor" stroke="none"')} Mariage : ${p.quand}</span>
-        <div class="dbio"><b>À propos</b>${p.bio}</div>
-        <span class="dfull">Voir la fiche complète ${ICO('i-chev', 8, 'stroke-width="2.6"')}</span>
+        <span class="a-pill a-pill--rose">${ICO('i-heart', 8, 'fill="currentColor" stroke="none"')} ${T.mariage}${p.quand}</span>
+        <div class="dbio"><b>${T.apropos}</b>${p.bio}</div>
+        <span class="dfull">${T.fiche} ${ICO('i-chev', 8, 'stroke-width="2.6"')}</span>
       </div>`;
     dStack.appendChild(el);
     return el;
@@ -155,12 +225,8 @@
   /* ══════════ ÉCRAN 2 — DEMANDES ══════════
      Une demande est acceptée : sa pastille passe au vert, la ligne sort par
      la droite et la liste se referme. Exactement le geste de l'application. */
-  const DEMANDES = [
-    { nom: 'Badr, 36',   lieu: 'Rabat · très pratiquant',      teinte: 205, mot: '« Assalamu alaykum, je cherche à me marier in sha Allah »' },
-    { nom: 'Ilyas, 33',  lieu: 'Casablanca · très pratiquant', teinte: 28,  mot: '« Salam, votre profil correspond à ce que je recherche »' },
-    { nom: 'Aymane, 31', lieu: 'Casablanca · très pratiquant', teinte: 152, mot: '« Salam alaykum, sincèrement intéressé »' },
-    { nom: 'Karim, 37',  lieu: 'Casablanca · très pratiquant', teinte: 268, mot: '« Bonjour, j’aimerais faire votre connaissance »' },
-  ];
+  const T_DEM = [205, 28, 152, 268];
+  const DEMANDES = T.demandes.map((d, i) => ({ ...d, teinte: T_DEM[i] }));
 
   const rList = document.getElementById('r-list');
   const rCount = document.getElementById('r-count');
@@ -175,7 +241,7 @@
         <div class="mt">${d.lieu}</div>
         <div class="qt">${d.mot}</div>
       </div>
-      <span class="a-pill a-pill--wait"><i></i>En attente</span>`;
+      <span class="a-pill a-pill--wait"><i></i>${T.attente}</span>`;
     return el;
   }
 
@@ -191,7 +257,7 @@
       rList.innerHTML = '';
       rQueue = DEMANDES.map(ligne);
       rQueue.forEach((n) => rList.appendChild(n));
-      rCount.textContent = '4 demandes en attente';
+      rCount.textContent = T.restantes(DEMANDES.length);
       rStep = 0;
       return;
     }
@@ -199,35 +265,26 @@
     const cible = vivantes[0];
     const pastille = cible.querySelector('.a-pill');
     pastille.className = 'a-pill a-pill--ok';
-    pastille.innerHTML = '<i></i>Acceptée';
+    pastille.innerHTML = `<i></i>${T.acceptee}`;
 
     setTimeout(() => {
       cible.classList.add('out');
       rStep++;
-      const reste = DEMANDES.length - rStep;
-      rCount.textContent = reste > 1 ? `${reste} demandes en attente`
-                         : reste === 1 ? '1 demande en attente'
-                         : 'Aucune demande en attente';
+      rCount.textContent = T.restantes(DEMANDES.length - rStep);
     }, 620);
   }, 2400);
 
   /* ══════════ ÉCRAN 3 — MESSAGES ══════════
      Quelqu'un écrit : trois points apparaissent, puis le message arrive,
      la conversation remonte en tête et la pastille non lue s'incrémente. */
-  const CONVS = [
-    { nom: 'Ismail',  teinte: 205, pv: 'Salam',                   tm: '2 j' },
-    { nom: 'Anas',    teinte: 28,  pv: 'Démarrez la conversation', tm: '' },
-    { nom: 'Hamza',   teinte: 152, pv: 'Démarrez la conversation', tm: '' },
-    { nom: 'Omar',    teinte: 268, pv: 'Démarrez la conversation', tm: '' },
-    { nom: 'Youssef', teinte: 92,  pv: 'Démarrez la conversation', tm: '' },
-    { nom: 'Karim',   teinte: 340, pv: 'Démarrez la conversation', tm: '' },
-  ];
+  const T_CONV = [205, 28, 152, 268, 92, 340];
+  const CONVS = T.convs.map((nom, i) => ({
+    nom, teinte: T_CONV[i],
+    pv: i === 0 ? T.salam : T.demarrer,
+    tm: i === 0 ? T.ilya : '',
+  }));
 
-  const NOUVEAUX = [
-    'Wa alaykum salam, merci pour votre message',
-    'Barak Allahu fik, j’en parle à ma famille',
-    'D’accord pour que nos walis se parlent',
-  ];
+  const NOUVEAUX = T.nouveaux;
 
   const mList = document.getElementById('m-list');
   const mBadge = document.getElementById('m-badge');
@@ -258,7 +315,7 @@
 
     setTimeout(() => {
       pv.textContent = NOUVEAUX[mTurn % NOUVEAUX.length];
-      tm.textContent = "à l’instant";
+      tm.textContent = T.maintenant;
       cible.classList.add('fresh');
       if (!cible.querySelector('.nb')) {
         const n = document.createElement('div');

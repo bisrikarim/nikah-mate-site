@@ -33,7 +33,13 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# Les deux pages : la française à la racine, l'arabe dans /ar/.
 [[headers]]
   for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/ar/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"

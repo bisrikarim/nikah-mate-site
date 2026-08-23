@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Nikah Mate — تطبيق زواج للمسلمين</title>
+<meta name="description" content="تطبيق زواج للمسلمين: صور خاصة افتراضياً، ووليّ مرتبط بالمسار، ومحادثات خاضعة للإشراف. قريباً على iOS وأندرويد.">
+
+<!-- Adresse publique du site. Si tu passes un jour à un vrai nom de
+     domaine, ce sont ces trois lignes à changer : canonical, og:url,
+     og:image. -->
+<link rel="canonical" href="https://nikah-mate.netlify.app/ar/">
+
+<!-- Les deux versions de la même page. « x-default » désigne celle à
+     servir quand la langue du visiteur ne correspond à aucune des deux. -->
+<link rel="alternate" hreflang="fr" href="https://nikah-mate.netlify.app/">
+<link rel="alternate" hreflang="ar" href="https://nikah-mate.netlify.app/ar/">
+<link rel="alternate" hreflang="x-default" href="https://nikah-mate.netlify.app/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_MA">
+<meta property="og:site_name" content="Nikah Mate">
+<meta property="og:title" content="Nikah Mate — تطبيق زواج للمسلمين">
+<meta property="og:description" content="صور خاصة افتراضياً، ووليّ مرتبط بالمسار، ومحادثات خاضعة للإشراف. لا نأتي إلى هنا لتمضية الوقت.">
+<meta property="og:url" content="https://nikah-mate.netlify.app/ar/">
+<meta property="og:image" content="https://nikah-mate.netlify.app/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="شعار Nikah Mate على خلفية باذنجانية.">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+<!-- La couleur de la barre du navigateur suit le thème du visiteur. -->
+<meta name="theme-color" content="#EFE6E3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191014" media="(prefers-color-scheme: dark)">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=DM+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@400;500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Marcellus&display=swap">
+
+<link rel="stylesheet" href="../assets/styles.css">
+<script src="../assets/app.js" defer></script>
+</head>
+<body>
+
+<nav class="langs" aria-label="اللغة">
+  <a href="/" lang="fr">FR</a>
+  <a href="/ar/" class="ar" lang="ar" aria-current="true">العربية</a>
+</nav>
+
+<!-- ══ pictogrammes, définis une fois ══ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="i-flame"><path d="M12 2c1 4-3 5-3 9a3 3 0 0 0 6 0c0-1-.4-2-1-3 2 1 4 3.5 4 6a6 6 0 0 1-12 0c0-5 5-6 6-12z"/></g>
+    <g id="i-pin"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></g>
+    <g id="i-check-c"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.4 2.4 4.6-4.8"/></g>
+    <g id="i-clock"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 1.8"/></g>
+    <g id="i-search"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></g>
+    <g id="i-hands"><path d="M12 20s-7-4.3-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.7-7 9-7 9z"/></g>
+    <g id="i-msg"><path d="M20.5 11.5a7.8 7.8 0 0 1-8.5 7.8 9 9 0 0 1-3.2-.6L4 20.5l1.6-4.2a7.6 7.6 0 0 1-1.1-4A8 8 0 0 1 12 4.3a8 8 0 0 1 8.5 7.2z"/></g>
+    <g id="i-book"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5a2.5 2.5 0 0 1 2.5 2.5z"/></g>
+    <g id="i-user"><circle cx="12" cy="8" r="3.6"/><path d="M5 20.5c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></g>
+    <g id="i-heart"><path d="M12 20.4S3.8 15.2 3.8 9.6A4.6 4.6 0 0 1 12 6.9a4.6 4.6 0 0 1 8.2 2.7c0 5.6-8.2 10.8-8.2 10.8z"/></g>
+    <g id="i-x"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></g>
+    <g id="i-funnel"><path d="M4 5h16l-6 7v6l-4 2v-8z"/></g>
+    <g id="i-chev"><path d="M9.5 5.5L16 12l-6.5 6.5"/></g>
+    <g id="i-lock"><rect x="4.5" y="10.5" width="15" height="10" rx="2.2"/><path d="M8 10.5V7.4a4 4 0 0 1 8 0v3.1"/></g>
+    <g id="i-shield"><path d="M12 3l7.5 3v6c0 4.6-3.2 8-7.5 9.5C7.7 20 4.5 16.6 4.5 12V6z"/></g>
+    <g id="i-cam"><path d="M3.5 8.5h3.2l1.6-2.2h7.4l1.6 2.2h3.2v11h-17z"/><circle cx="12" cy="13.6" r="3.4"/></g>
+    <g id="i-eye-off"><path d="M4 4l16 16"/><path d="M9.6 5.4A9.8 9.8 0 0 1 12 5c5.5 0 9 6 9 6a15 15 0 0 1-3.2 3.9M6.3 7.4A15.6 15.6 0 0 0 3 11s3.5 6 9 6a9.6 9.6 0 0 0 3.6-.7"/></g>
+    <g id="i-apple"><path d="M16.36 1.43c0 1.14-.49 2.27-1.17 3.08-.75.9-1.99 1.57-2.99 1.57-.12 0-.23-.02-.3-.03a1.9 1.9 0 0 1-.04-.39c0-1.15.57-2.27 1.21-2.98.8-.94 2.14-1.64 3.24-1.68.03.13.05.28.05.43zm4.57 15.71c-.03.07-.47 1.58-1.52 3.12-.95 1.34-1.94 2.71-3.43 2.71-1.52 0-1.9-.88-3.63-.88-1.7 0-2.3.91-3.67.91-1.38 0-2.33-1.26-3.43-2.8C4 18.38 2.97 15.57 2.97 12.92c0-4.28 2.79-6.55 5.55-6.55 1.45 0 2.67.95 3.6.95.86 0 2.22-1.01 3.9-1.01.61 0 2.88.06 4.37 2.19-.13.09-2.38 1.37-2.38 4.19 0 3.26 2.85 4.42 2.95 4.45z"/></g>
+    <g id="i-android"><path d="M17.6 9.48l1.84-3.18a.63.63 0 0 0-.26-.85.64.64 0 0 0-.83.22l-1.88 3.24a11.43 11.43 0 0 0-8.94 0L5.65 5.67a.64.64 0 0 0-.87-.2c-.28.18-.37.54-.22.83L6.4 9.48A10.78 10.78 0 0 0 1 18h22a10.78 10.78 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></g>
+    <g id="i-pencil"><path d="M15.5 4.5l4 4L8 20H4v-4z"/></g>
+  </defs>
+</svg>
+
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ══════════════ HÉRO ══════════════ -->
+<header class="hero">
+  <div id="lattice" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="wordmark rise" style="--i:0">
+      <span class="ar">نِكَاح</span>
+      <span class="lat">Nikah&nbsp;Mate</span>
+    </div>
+
+    <h1 class="rise" style="--i:1">
+      لا نأتي إلى هنا<br>
+      <span class="soft">لتمضية الوقت.</span>
+    </h1>
+
+    <div class="hero-side">
+      <p class="hero-lede rise" style="--i:2">
+        تطبيق زواج للمسلمين. الصور تبقى خاصة، ويمكن للوليّ أن يتابع المسار،
+        وكل محادثة تبدأ بطلب مكتوب.
+      </p>
+
+      <p class="hero-note rise" style="--i:3">
+        لا شيء هنا مصمَّم ليبقيك. لا تصفّح بلا نهاية، ولا «إعجابات»،
+        ولا إشعارات تدفعك للعودة.
+      </p>
+    </div>
+
+    <div class="cta-row rise" style="--i:4">
+      <a class="store store--go" href="https://github.com/bisrikarim/nikah-mate-site/releases/latest/download/nikah-mate.apk" download>
+        <svg class="store-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-android"/></svg>
+        <span class="store-tx">
+          <span class="small">تحميل لنظام</span>
+          <span class="big">أندرويد</span>
+        </span>
+      </a>
+      <span class="store">
+        <svg class="store-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-apple"/></svg>
+        <span class="store-tx">
+          <span class="small">قريباً على</span>
+          <span class="big">App Store</span>
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true"><i></i>مرِّر للأسفل</div>
+</header>
+
+<!-- ══════════════ LE CONSTAT ══════════════ -->
+<section class="band band--surface">
+  <div class="inner">
+    <div class="prose rise">
+      <p class="eyebrow">الواقع</p>
+      <h2>تطبيقات المواعدة مصمَّمة للتسلية.</h2>
+      <p>هذا عملها، وهي تُتقنه. لكن حين يكون المقصد هو الزواج، فكل واحدة من عاداتها تعمل ضدّنا.</p>
+    </div>
+
+    <div class="contrast-grid">
+      <div class="pane pane--them rise" style="--i:0">
+        <h3>ما هو معتاد عند غيرنا</h3>
+        <ul>
+          <li>الصورة تحسم كل شيء، وهي معروضة للجميع</li>
+          <li>تمرير بلا نهاية، مصمَّم ليطول</li>
+          <li>العائلة تبقى خارج الموضوع</li>
+          <li>تكتب لمن تشاء، متى تشاء</li>
+          <li>الملف المزيّف يكلّف ثلاث دقائق</li>
+        </ul>
+      </div>
+      <div class="pane pane--us rise" style="--i:1">
+        <h3>ما يفعله Nikah Mate</h3>
+        <ul>
+          <li>صور مطموسة افتراضياً، لا تُكشف إلا باتفاق متبادل</li>
+          <li>ملفات متوافقة، لا تدفّق بلا نهاية</li>
+          <li>يمكن ربط وليّ بالمسار</li>
+          <li>طلب مكتوب قبل أول رسالة</li>
+          <li>هوية موثَّقة، إشراف بشري، وإمكانية الإبلاغ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     LE TOUR DE L'APPLICATION — quatre écrans, quatre gestes
+     ══════════════════════════════════════════════════════════ -->
+<section class="band band--tour">
+  <div class="inner tour">
+
+    <div class="prose rise">
+      <p class="eyebrow">جولة في التطبيق</p>
+      <h2>أربع شاشات، وكل شيء يتّضح.</h2>
+      <p>كل شاشة أدناه تعمل فعلاً: اتركها تدور بضع ثوانٍ.</p>
+    </div>
+
+    <!-- ── 1. DÉCOUVRIR ── -->
+    <div class="scene scene--tiled">
+      <div class="ph rise" role="img" aria-label="شاشة الاكتشاف: بطاقة ملف بصورة مطموسة، والمدينة، ونسبة التوافق، وزرّا الرفض أو إرسال طلب.">
+        <div class="ph-screen">
+          <div class="ph-head">
+            <div style="flex:1">
+              <div class="ttl">اكتشف</div>
+              <div class="sub">21 ملفاً متوافقاً</div>
+            </div>
+            <span class="a-pill" style="background:var(--a-card);color:var(--a-ink);padding:.28rem .55rem">
+              <svg class="ico" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-funnel"/></svg>
+              تصفية
+            </span>
+          </div>
+
+          <div class="ph-body">
+            <div>
+              <div class="sorttabs" id="d-tabs">
+                <div class="sorttab on"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><use href="#i-flame"/></svg><span>لك</span></div>
+                <div class="sorttab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><use href="#i-pin"/></svg><span>قريب منك</span></div>
+                <div class="sorttab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check-c"/></svg><span>موثَّقون</span></div>
+                <div class="sorttab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><use href="#i-clock"/></svg><span>الأحدث</span></div>
+              </div>
+              <div class="dotrail"><b id="d-dot"></b></div>
+            </div>
+
+            <div class="stack" id="d-stack"></div>
+
+            <div class="dacts">
+              <div class="dbtn dbtn--no"><svg class="ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><use href="#i-x"/></svg></div>
+              <div class="dbtn dbtn--yes" id="d-heart"><svg class="ico" width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><use href="#i-heart"/></svg></div>
+            </div>
+          </div>
+
+          <nav class="ph-tabs">
+            <div class="ph-tab on"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-search"/></svg><span>اكتشف</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-hands"/></svg><span>الطلبات</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-msg"/></svg><span>الرسائل</span><em class="nb">11</em></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-book"/></svg><span>موارد</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-user"/></svg><span>حسابي</span></div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="prose rise" style="--i:1">
+        <p class="eyebrow">اكتشف</p>
+        <h2>لا أحد يرى وجهك قبل أن تقرّري ذلك.</h2>
+        <p>
+          عند التسجيل، صورك مطموسة أمام الجميع. لا تُكشف إلا بعد اتفاق متبادل —
+          لا اشتراك، ولا خيار مخبَّأ في الإعدادات.
+        </p>
+        <p>
+          ما يبقى ظاهراً في هذه الأثناء هو ما يهمّ في الزواج: النية، الالتزام،
+          المدينة، اللغة، ومشروع تأسيس أسرة. القلب لا يُرسل «إعجاباً»:
+          بل يفتح رسالة تُكتب.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── 2. DEMANDES ── -->
+    <div class="scene scene--flip">
+      <div class="ph rise" role="img" aria-label="شاشة الطلبات: الطلبات الواردة، وحالتها في الانتظار أو مقبولة.">
+        <div class="ph-screen">
+          <div class="ph-head">
+            <div style="flex:1">
+              <div class="ttl">الطلبات</div>
+              <div class="sub" id="r-count">4 طلبات في الانتظار</div>
+            </div>
+          </div>
+
+          <div class="ph-body">
+            <div class="seg" id="r-seg">
+              <b></b>
+              <span class="on">الواردة</span>
+              <span>المُرسَلة</span>
+            </div>
+            <div class="reqlist" id="r-list"></div>
+          </div>
+
+          <nav class="ph-tabs">
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-search"/></svg><span>اكتشف</span></div>
+            <div class="ph-tab on"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-hands"/></svg><span>الطلبات</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-msg"/></svg><span>الرسائل</span><em class="nb">11</em></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-book"/></svg><span>موارد</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-user"/></svg><span>حسابي</span></div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="prose rise" style="--i:1">
+        <p class="eyebrow">الطلبات</p>
+        <h2>لا أحد يكتب إليك دون أن يطلب.</h2>
+        <p>
+          قبل أول رسالة، لا بدّ من إرسال طلب — مصحوب بكلمة. لا رموز تعبيرية،
+          ولا «مرحبا» آلية: بضع جمل تُبيّن النية.
+        </p>
+        <p>
+          تقبلين أو ترفضين، ويغادر الطلب القائمة. لا شيء يتراكم، ولا أحد يُلحّ.
+          والرفض لا يحتاج إلى تبرير.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── 3. MESSAGES ── -->
+    <div class="scene scene--tiled">
+      <div class="ph rise" role="img" aria-label="شاشة الرسائل: قائمة المحادثات الجارية.">
+        <div class="ph-screen">
+          <div class="ph-head">
+            <div style="flex:1">
+              <div class="ttl">الرسائل</div>
+              <div class="sub">18 محادثة</div>
+            </div>
+          </div>
+
+          <div class="ph-body">
+            <div class="convlist" id="m-list"></div>
+          </div>
+
+          <nav class="ph-tabs">
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-search"/></svg><span>اكتشف</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-hands"/></svg><span>الطلبات</span></div>
+            <div class="ph-tab on"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-msg"/></svg><span>الرسائل</span><em class="nb" id="m-badge">11</em></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-book"/></svg><span>موارد</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-user"/></svg><span>حسابي</span></div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="prose rise" style="--i:1">
+        <p class="eyebrow">الرسائل</p>
+        <h2>محادثة، لا لعبة.</h2>
+        <p>
+          المراسلات خاضعة للإشراف وليست مجهولة أبداً. كل طرف يعرف مع من يتحدث،
+          والوليّ، إن أُذن له، يمكنه أن يقرأ ما يُكتب — دون أن يكتب مكانك أبداً.
+        </p>
+        <p>
+          الإبلاغ أو الحظر يتمّ بحركتين، من داخل المحادثة نفسها. مشرف يطّلع،
+          وإنسان حقيقي يقرّر.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── 4. PROFIL ── -->
+    <div class="scene scene--flip">
+      <div class="ph rise" role="img" aria-label="شاشة الحساب: الصور الخاصة، ومفتاح الطمس، والوصول إلى الوليّ والتحقق بخطوتين.">
+        <div class="ph-screen">
+          <div class="ph-head"><div class="ttl">حسابي</div></div>
+
+          <div class="ph-body">
+            <div class="pcard">
+              <div class="pav">
+                <div class="circle">ز</div>
+                <div class="badge"><svg class="ico" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><use href="#i-lock"/></svg></div>
+              </div>
+              <div class="nm">
+                زينب
+                <svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--a-accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><use href="#i-check-c"/></svg>
+              </div>
+              <div class="mt">20 سنة · الدار البيضاء</div>
+              <div class="em">flowsbridge360@gmail.com</div>
+              <span class="pbtn">
+                <svg class="ico" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-pencil"/></svg>
+                تعديل حسابي
+              </span>
+            </div>
+
+            <div class="psec">
+              <div>
+                <div class="h">صوري الخاصة</div>
+                <div class="s">لا تظهر إلا بعد اتفاق متبادل</div>
+              </div>
+
+              <div class="photos">
+                <div class="photo blurred" id="p-photo">
+                  <div class="img" style="background:
+                    radial-gradient(58% 52% at 42% 30%, #C9A9B6, transparent 68%),
+                    radial-gradient(66% 58% at 70% 74%, #6E5460, transparent 72%),
+                    linear-gradient(155deg, #EADCE1, #7C6470)"></div>
+                  <div class="x"><svg class="ico" width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"><use href="#i-x"/></svg></div>
+                </div>
+                <div class="photo photo--add">
+                  <svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><use href="#i-cam"/></svg>
+                </div>
+              </div>
+
+              <div class="prow">
+                <div class="ic"><svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-eye-off"/></svg></div>
+                <div class="tx">
+                  <b>طمس صوري</b>
+                  <span>في الاكتشاف، تبقى صورتك مطموسة حتى اتفاق متبادل.</span>
+                </div>
+                <div class="sw on" id="p-switch"><i></i></div>
+              </div>
+            </div>
+
+            <div class="psec pmenu">
+              <div>
+                <div class="ic" style="width:1.5rem;height:1.5rem;border-radius:8px;background:var(--a-wash);color:var(--a-accent);display:grid;place-items:center">
+                  <svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-shield"/></svg>
+                </div>
+                وليّي
+                <svg class="ico ch" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><use href="#i-chev"/></svg>
+              </div>
+              <div>
+                <div class="ic" style="width:1.5rem;height:1.5rem;border-radius:8px;background:var(--a-wash);color:var(--a-accent);display:grid;place-items:center">
+                  <svg class="ico" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-lock"/></svg>
+                </div>
+                التحقق بخطوتين
+                <svg class="ico ch" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><use href="#i-chev"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <nav class="ph-tabs">
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-search"/></svg><span>اكتشف</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-hands"/></svg><span>الطلبات</span></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-msg"/></svg><span>الرسائل</span><em class="nb">11</em></div>
+            <div class="ph-tab"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><use href="#i-book"/></svg><span>موارد</span></div>
+            <div class="ph-tab on"><svg class="ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><use href="#i-user"/></svg><span>حسابي</span></div>
+          </nav>
+        </div>
+      </div>
+
+      <div class="prose rise" style="--i:1">
+        <p class="eyebrow">حسابي</p>
+        <h2>التحكّم بيد الشخص، لا بيد التطبيق.</h2>
+        <p>
+          مفتاح واحد يتحكّم في ظهور صورك، وهو مُفعَّل افتراضياً. تعطيله اختيار
+          واعٍ، لا إعداد منسيّ.
+        </p>
+        <p>
+          من الشاشة نفسها: ربط وليّ، تفعيل التحقق بخطوتين، تصدير الحساب أو حذفه.
+          لا شيء مدفون في قائمة فرعية.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ COMPATIBILITÉ ══════════════ -->
+<section class="band band--surface">
+  <div class="inner">
+    <div class="prose rise">
+      <p class="eyebrow">التوافق</p>
+      <h2>سبعة معايير. بلا أي ذكاء اصطناعي.</h2>
+      <p>
+        النتيجة ليست سرّاً صناعياً: إنها عملية جمع. هذه هي الأوزان بالضبط، كما هي
+        مكتوبة في الكود. أي معيار لم تملئيه يُهمَل، ويُعاد توزيع وزنه على الباقي.
+      </p>
+    </div>
+
+    <div class="weights rise">
+      <div class="w-row"><span class="lbl">النية</span><div class="w-track"><div class="w-fill" style="--w:1;   --i:0"></div></div><span class="num mono">25</span></div>
+      <div class="w-row"><span class="lbl">الالتزام</span><div class="w-track"><div class="w-fill" style="--w:0.8; --i:1"></div></div><span class="num mono">20</span></div>
+      <div class="w-row"><span class="lbl">الأطفال</span><div class="w-track"><div class="w-fill" style="--w:0.8; --i:2"></div></div><span class="num mono">20</span></div>
+      <div class="w-row"><span class="lbl">المكان</span><div class="w-track"><div class="w-fill" style="--w:0.6; --i:3"></div></div><span class="num mono">15</span></div>
+      <div class="w-row"><span class="lbl">اللغات</span><div class="w-track"><div class="w-fill" style="--w:0.4; --i:4"></div></div><span class="num mono">10</span></div>
+      <div class="w-row"><span class="lbl">التدخين</span><div class="w-track"><div class="w-fill" style="--w:0.2; --i:5"></div></div><span class="num mono">5</span></div>
+      <div class="w-row"><span class="lbl">الكحول</span><div class="w-track"><div class="w-fill" style="--w:0.2; --i:6"></div></div><span class="num mono">5</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ LE WALI ══════════════ -->
+<section class="band">
+  <div class="inner">
+    <div class="prose rise">
+      <p class="eyebrow">الوليّ</p>
+      <h2>العائلة داخل المسار، لا أمام الباب.</h2>
+      <p>
+        يمكن للمرأة أن تربط وليّاً: يقبل صراحةً، ويقرأ — لكنه لا يكتب مكانها أبداً.
+        ولأن وليّاً يُعيَّن باستخفاف لا قيمة له، تُتحقَّق هويته على ثلاث درجات
+        ظاهرة في الملف.
+      </p>
+    </div>
+
+    <div class="tiers">
+      <div class="tier tier--1 rise" style="--i:0">
+        <span class="chip">معلَن</span>
+        <h3>قَبِل الدعوة</h3>
+        <p>دعوة أُرسلت، وقبول ورد. هذه بداية، لا أكثر.</p>
+      </div>
+      <div class="tier tier--2 rise" style="--i:1">
+        <span class="chip">موثَّق</span>
+        <h3>هويته مؤكَّدة</h3>
+        <p>بطاقة هوية وصورة شخصية، يراجعهما مشرف. نعرف أنه موجود، وأنه بالغ، وأنه هو فعلاً.</p>
+      </div>
+      <div class="tier tier--3 rise" style="--i:2">
+        <span class="chip">مؤكَّد</span>
+        <h3>صلة القرابة مُثبَتة</h3>
+        <p>اسم عائلة مطابق أو وثيقة داعمة. الدرجة التي تنظر إليها العائلات الجادّة أولاً.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ LE PARCOURS ══════════════ -->
+<section class="band band--deep">
+  <div class="inner">
+    <div class="prose rise">
+      <p class="eyebrow">المسار</p>
+      <h2>أربع مراحل، بالترتيب.</h2>
+      <p>التطبيق يتابع التقدّم الحقيقي للعلاقة. كل طرف يعرف أين وصل، والوليّ كذلك.</p>
+    </div>
+
+    <div class="path">
+      <div class="step rise" style="--i:0"><span class="n mono">01</span><h3>المحادثة</h3><p>بعد طلب مكتوب ومقبول. خاضعة للإشراف، وغير مجهولة أبداً.</p></div>
+      <div class="step rise" style="--i:1"><span class="n mono">02</span><h3>الخِطبة الرسمية</h3><p>تصبح النية صريحة، وتدخل العائلتان في الحديث.</p></div>
+      <div class="step rise" style="--i:2"><span class="n mono">03</span><h3>الخطوبة</h3><p>يبدأ التحضير، ويتراجع دور التطبيق تدريجياً.</p></div>
+      <div class="step rise" style="--i:3"><span class="n mono">04</span><h3>الزواج</h3><p>الغاية. من هنا، ينتهي عملنا.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CONFIANCE ══════════════ -->
+<section class="band band--surface">
+  <div class="inner">
+    <div class="prose rise">
+      <p class="eyebrow">الثقة</p>
+      <h2>ما نرفض أن نفعله.</h2>
+      <p>تطبيق زواج يُحكم عليه بما يحرّمه على نفسه بقدر ما يُحكم عليه بما يقدّمه.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact rise" style="--i:0"><span class="big">0</span><span class="k">محادثة مجهولة. كل رسالة تفترض طلباً مقبولاً.</span></div>
+      <div class="fact rise" style="--i:1"><span class="big">0</span><span class="k">صورة علنية. الطمس هو الحالة الافتراضية، لا خياراً.</span></div>
+      <div class="fact rise" style="--i:2"><span class="big">18+</span><span class="k">عند التسجيل، ويُتحقَّق منه عند إنشاء الحساب.</span></div>
+      <div class="fact rise" style="--i:3"><span class="big">&lt;&nbsp;24&nbsp;س</span><span class="k">هدفنا في معالجة أي بلاغ من طرف مشرف.</span></div>
+      <div class="fact rise" style="--i:4"><span class="big">FR&nbsp;·&nbsp;AR</span><span class="k">بالفرنسية والعربية، مع الكتابة من اليمين إلى اليسار.</span></div>
+      <div class="fact rise" style="--i:5"><span class="big">RGPD</span><span class="k">وقانون 09-08: بياناتك تبقى ملكك، ويمكن محوها في أي وقت.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ INSTALLER ══════════════ -->
+<section class="band band--surface">
+  <div class="inner">
+    <div class="prose rise">
+      <p class="eyebrow">التثبيت</p>
+      <h2>على أندرويد، من الآن.</h2>
+      <p>
+        التطبيق ليس بعد على متجر Play: يُثبَّت مباشرة، في ثلاث خطوات. هذه نسخة
+        تجريبية — تعمل، لكن ليس كل شيء فيها نهائياً بعد.
+      </p>
+    </div>
+
+    <div class="path">
+      <div class="step rise" style="--i:0">
+        <span class="n mono">01</span>
+        <h3>التحميل</h3>
+        <p>من هاتفك الأندرويد، اضغط على الزر أدناه.</p>
+      </div>
+      <div class="step rise" style="--i:1">
+        <span class="n mono">02</span>
+        <h3>الإذن</h3>
+        <p>
+          ينبّهك أندرويد أن الملف لا يأتي من متجر Play. هذا متوقّع. اضغط
+          «الإعدادات»، ثم اسمح بهذا المصدر.
+        </p>
+      </div>
+      <div class="step rise" style="--i:2">
+        <span class="n mono">03</span>
+        <h3>الفتح</h3>
+        <p>ابحث عن الملف في تنزيلاتك، افتحه، وأكمل التثبيت.</p>
+      </div>
+    </div>
+
+    <div class="cta-row rise" style="justify-content: center">
+      <a class="store store--go" href="https://github.com/bisrikarim/nikah-mate-site/releases/latest/download/nikah-mate.apk" download>
+        <svg class="store-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-android"/></svg>
+        <span class="store-tx">
+          <span class="small">تحميل لنظام</span>
+          <span class="big">أندرويد</span>
+        </span>
+      </a>
+    </div>
+
+    <p class="rise" style="text-align:center; font-size:0.9rem; color:var(--ink-mute); max-width:34rem; margin:0 auto">
+      على iPhone، يفرض App Store مراجعة قبل أي تثبيت: نسخة iOS ستأتي من هناك.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ CLÔTURE ══════════════ -->
+<section class="band">
+  <div class="close rise">
+    <svg class="seal" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true">
+      <rect x="9" y="9" width="30" height="30" />
+      <rect x="9" y="9" width="30" height="30" transform="rotate(45 24 24)" />
+      <circle cx="24" cy="24" r="6.5" />
+    </svg>
+
+    <h2>الزواج نصف الدين.<br>والباقي مسألة جدّية.</h2>
+
+    <p style="color: var(--ink-soft); font-size: var(--t-1)">
+      ‏Nikah Mate‏ يصل قريباً إلى المغرب، بالفرنسية والعربية.
+    </p>
+
+    <div class="cta-row">
+      <a class="store store--go" href="https://github.com/bisrikarim/nikah-mate-site/releases/latest/download/nikah-mate.apk" download>
+        <svg class="store-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-android"/></svg>
+        <span class="store-tx">
+          <span class="small">تحميل لنظام</span>
+          <span class="big">أندرويد</span>
+        </span>
+      </a>
+      <span class="store">
+        <svg class="store-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#i-apple"/></svg>
+        <span class="store-tx">
+          <span class="small">قريباً على</span>
+          <span class="big">App Store</span>
+        </span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="ar" style="font-size: 1.1rem; color: var(--brass)">نِكَاح</span>
+  &nbsp;·&nbsp; Nikah Mate &nbsp;·&nbsp; Halal by design
+</footer>
+
+</body>
+</html>

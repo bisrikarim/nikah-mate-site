@@ -77,6 +77,42 @@ WhatsApp ou les réseaux sociaux restera cassé :
 
 Elles sont regroupées en haut du fichier, sous un commentaire qui les signale.
 
+## Les deux langues
+
+| Adresse | Fichier | Langue |
+|---|---|---|
+| `/` | `index.html` | français |
+| `/ar/` | `ar/index.html` | arabe, lecture de droite à gauche |
+
+Les deux pages partagent **la même feuille de style et le même script**.
+Seul le contenu est dupliqué.
+
+**Modifier le site, c'est donc toucher aux deux fichiers.** C'est le prix de
+l'approche : en échange, chaque langue a sa propre adresse (donc son propre
+référencement, et un lien partageable tel quel), la page s'affiche
+instantanément dans la bonne langue, et rien ne dépend de JavaScript.
+
+### Ce qui bascule tout seul
+
+`dir="rtl"` sur `<html>` suffit : flex et grid se retournent d'eux-mêmes. Les
+quelques règles qui suivent le sens de lecture emploient des propriétés
+**logiques** (`border-inline-start` plutôt que `border-left`), qui s'adaptent
+sans qu'on s'en occupe.
+
+### ⚠️ Ce qui ne doit PAS basculer
+
+**Le boîtier du téléphone.** C'est la photo d'un objet réel : ses boutons
+latéraux, son îlot et son ombre restent où ils sont, quelle que soit la
+langue. Ces règles emploient volontairement des propriétés **physiques**
+(`left`, `right`), qui ignorent `dir`. Seul le *contenu de l'écran* suit le
+sens de lecture.
+
+### Les textes à l'intérieur des téléphones
+
+Ils vivent dans `assets/app.js`, dans l'objet `TEXTES`, avec une entrée `fr`
+et une entrée `ar`. Le script lit `lang` sur `<html>` et pioche dans la bonne.
+Un seul fichier, donc une seule logique à maintenir.
+
 ## Deux choses à savoir avant de retoucher
 
 **Les couleurs passent toutes par des jetons**, définis en haut de

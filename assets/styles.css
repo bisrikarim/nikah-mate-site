@@ -189,6 +189,29 @@ a { color: var(--rose-ink); text-decoration-thickness: 1px; text-underline-offse
 .prose p { color: var(--ink-soft); font-size: var(--t-1); }
 .prose h2 { font-size: var(--t-3); }
 
+
+/* ══════════════ SÉLECTEUR DE LANGUE ══════════════ */
+.langs {
+  position: fixed; top: var(--s-2); inset-inline-end: var(--s-2); z-index: 30;
+  display: flex; align-items: center; gap: 0.15rem;
+  background: var(--glass, var(--surface));
+  border: 1px solid var(--rule); border-radius: 999px;
+  padding: 0.2rem; box-shadow: 0 2px 8px -4px var(--shade);
+  backdrop-filter: blur(8px);
+}
+
+.langs a {
+  display: block; border-radius: 999px;
+  padding: 0.24rem 0.7rem;
+  font-size: 0.78rem; font-weight: 700;
+  color: var(--ink-soft); text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.langs a:hover { color: var(--ink); }
+.langs a[aria-current="true"] { background: var(--rose-wash); color: var(--rose-ink); }
+.langs .ar { font-family: Amiri, serif; font-size: 0.92rem; }
+
 /* ══════════════ JAUGE DE LECTURE ══════════════ */
 .progress {
   position: fixed; inset: 0 0 auto 0; height: 2px;
@@ -275,7 +298,7 @@ a { color: var(--rose-ink); text-decoration-thickness: 1px; text-underline-offse
 .hero-lede { font-size: var(--t-1); color: var(--ink-soft); }
 .hero-note {
   font-size: var(--t-0); color: var(--ink);
-  border-left: 2px solid var(--brass); padding-left: var(--s-2);
+  border-inline-start: 2px solid var(--brass); padding-inline-start: var(--s-2);
 }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: stretch; margin-top: var(--s-2); }
@@ -733,7 +756,7 @@ a { color: var(--rose-ink); text-decoration-thickness: 1px; text-underline-offse
 .pmenu { display: flex; flex-direction: column; }
 .pmenu a, .pmenu div { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; font-size: 0.65rem; font-weight: 600; color: var(--a-ink); border-top: 1px solid var(--a-line); }
 .pmenu div:first-child { border-top: 0; }
-.pmenu .ch { margin-left: auto; color: var(--a-faint); }
+.pmenu .ch { margin-inline-start: auto; color: var(--a-faint); }
 
 /* ══════════════ POIDS DE COMPATIBILITÉ ══════════════ */
 .weights { display: flex; flex-direction: column; gap: 0.85rem; margin-top: var(--s-2); }
@@ -747,7 +770,7 @@ a { color: var(--rose-ink); text-decoration-thickness: 1px; text-underline-offse
   transition-delay: calc(var(--i, 0) * 110ms);
 }
 .seen .w-fill { transform: scaleX(var(--w)); }
-.w-row .num { color: var(--ink-mute); font-size: 0.82rem; text-align: right; }
+.w-row .num { color: var(--ink-mute); font-size: 0.82rem; text-align: end; }
 @media (max-width: 30rem) { .w-row { grid-template-columns: 5.6rem 1fr 2.2rem; font-size: 0.85rem; } }
 
 /* ══════════════ LES TROIS CRANS DU WALI ══════════════ */
@@ -789,6 +812,54 @@ footer {
   color: var(--ink-mute); font-size: 0.85rem;
   border-top: 1px solid var(--rule-soft); background: var(--ground);
 }
+
+
+/* ══════════════ ARABE (droite à gauche) ══════════════
+   La bascule tient dans « dir="rtl" » sur <html> : flex et grid se
+   retournent d'eux-mêmes. Ne restent que la typographie et une poignée
+   d'éléments dont le sens ne doit PAS suivre celui du texte. */
+[lang="ar"] { --t-5: clamp(2.6rem, 6.8vw, 5.4rem); }
+
+[lang="ar"] body {
+  font-family: "Noto Sans Arabic", "DM Sans", "Segoe UI", system-ui, sans-serif;
+  line-height: 1.85; /* l'arabe demande plus d'air entre les lignes */
+}
+
+[lang="ar"] h1,
+[lang="ar"] h2,
+[lang="ar"] h3 {
+  font-family: Amiri, "Noto Sans Arabic", Georgia, serif;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+/* Les petites capitales espacées n'existent pas en arabe : l'écriture est
+   liée, espacer les lettres la casse littéralement. */
+[lang="ar"] .eyebrow,
+[lang="ar"] .store .small,
+[lang="ar"] .tier .chip {
+  letter-spacing: 0;
+  text-transform: none;
+  font-family: "Noto Sans Arabic", "DM Mono", monospace;
+}
+
+/* Les chiffres, eux, restent en caractères latins. */
+[lang="ar"] .mono,
+[lang="ar"] .w-row .num,
+[lang="ar"] .step .n,
+[lang="ar"] .fact .big { font-family: "DM Mono", ui-monospace, monospace; }
+
+/* Le chevron des menus pointe vers l'avant : il doit se retourner. */
+[dir="rtl"] .pmenu .ch { transform: scaleX(-1); }
+
+/* ⚠️ LE TÉLÉPHONE NE SE RETOURNE PAS.
+   C'est la photo d'un objet réel : ses boutons, son îlot et son ombre
+   restent où ils sont, quelle que soit la langue. Les règles du boîtier
+   emploient des propriétés physiques (left/right), qui ignorent « dir » —
+   rien à faire pour elles. Seul le CONTENU de l'écran suit le texte. */
+[dir="rtl"] .ph-screen { direction: rtl; }
+[dir="rtl"] .dphoto .lock { left: auto; right: 0.55rem; }
+[dir="rtl"] .ph-tab .nb { right: auto; left: 50%; margin-right: 0; margin-inline-start: -1.15rem; }
 
 /* ══════════════ TÉLÉPHONES ══════════════
    Les respirations du bureau (7rem entre les sections) coûtent un demi-écran

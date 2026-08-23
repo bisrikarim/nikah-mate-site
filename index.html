@@ -12,6 +12,12 @@
      og:image. -->
 <link rel="canonical" href="https://nikah-mate.netlify.app/">
 
+<!-- Les deux versions de la même page. « x-default » désigne celle à
+     servir quand la langue du visiteur ne correspond à aucune des deux. -->
+<link rel="alternate" hreflang="fr" href="https://nikah-mate.netlify.app/">
+<link rel="alternate" hreflang="ar" href="https://nikah-mate.netlify.app/ar/">
+<link rel="alternate" hreflang="x-default" href="https://nikah-mate.netlify.app/">
+
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Nikah Mate">
@@ -33,12 +39,17 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Marcellus&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=DM+Mono:wght@400;500&family=Noto+Sans+Arabic:wght@400;500;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Marcellus&display=swap">
 
 <link rel="stylesheet" href="assets/styles.css">
 <script src="assets/app.js" defer></script>
 </head>
 <body>
+
+<nav class="langs" aria-label="Langue">
+  <a href="/" aria-current="true" lang="fr">FR</a>
+  <a href="/ar/" class="ar" lang="ar">العربية</a>
+</nav>
 
 <!-- ══ pictogrammes, définis une fois ══ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
