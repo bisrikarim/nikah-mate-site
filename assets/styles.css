@@ -821,14 +821,14 @@ footer {
 [lang="ar"] { --t-5: clamp(2.6rem, 6.8vw, 5.4rem); }
 
 [lang="ar"] body {
-  font-family: "Noto Sans Arabic", "DM Sans", "Segoe UI", system-ui, sans-serif;
-  line-height: 1.85; /* l'arabe demande plus d'air entre les lignes */
+  font-family: Cairo, "Noto Sans Arabic", "DM Sans", "Segoe UI", system-ui, sans-serif;
+  line-height: 1.8; /* Cairo a des lettres hautes : un peu moins d'interligne suffit */
 }
 
 [lang="ar"] h1,
 [lang="ar"] h2,
 [lang="ar"] h3 {
-  font-family: Amiri, "Noto Sans Arabic", Georgia, serif;
+  font-family: Amiri, Cairo, Georgia, serif;
   line-height: 1.4;
   letter-spacing: 0;
 }
@@ -837,10 +837,11 @@ footer {
    liée, espacer les lettres la casse littéralement. */
 [lang="ar"] .eyebrow,
 [lang="ar"] .store .small,
-[lang="ar"] .tier .chip {
+[lang="ar"] .tier .chip,
+[lang="ar"] .ph-screen {
   letter-spacing: 0;
   text-transform: none;
-  font-family: "Noto Sans Arabic", "DM Mono", monospace;
+  font-family: Cairo, "Noto Sans Arabic", sans-serif;
 }
 
 /* Les chiffres, eux, restent en caractères latins. */
