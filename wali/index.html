@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace wali — Nikah Mate</title>
+
+<!-- Une page privée : on ne veut ni indexation, ni aperçu de partage, ni
+     référent transmis (l'adresse contient un jeton d'accès). -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta name="theme-color" content="#EFE6E3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#191014" media="(prefers-color-scheme: dark)">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Marcellus&display=swap">
+
+<style>
+/* ══════════════ JETONS ══════════════
+   Repris à l'identique de la page d'accueil : même riad, même lumière.
+   Cette page est volontairement AUTONOME — elle ne charge pas styles.css,
+   pour qu'une retouche de la page d'accueil ne puisse jamais la casser. */
+:root {
+  --ground:    #EFE6E3;
+  --surface:   #FFFCFA;
+  --ink:       #23161C;
+  --ink-soft:  #5C4650;
+  --ink-mute:  #6E5964;
+  --rose:      #A5546F;
+  --rose-wash: #F6E8EE;
+  --brass:     #7F5F22;
+  --zellige:   #2C6B61;
+  --zellige-wash: #E2EFEC;
+  --rule:      #DCCBCD;
+  --rule-soft: #EADEDE;
+  --cta-bg:    #A5546F;
+  --cta-ink:   #FFFFFF;
+  --shade:     rgba(35, 22, 28, 0.06);
+  --peer-bg:   #FFFCFA;
+  --ward-bg:   #F6E8EE;
+
+  --t--1: 0.82rem;
+  --t-0:  1rem;
+  --t-1:  1.2rem;
+  --t-2:  1.5rem;
+  --t-3:  2rem;
+
+  --s-1: 0.5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2rem;
+  --s-5: 3rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:    #191014;
+    --surface:   #241821;
+    --ink:       #F2E7EB;
+    --ink-soft:  #BCA7B1;
+    --ink-mute:  #92808A;
+    --rose:      #DFA0B6;
+    --rose-wash: #34202A;
+    --brass:     #D8AE62;
+    --zellige:   #6FB6A8;
+    --zellige-wash: #1B2E2B;
+    --rule:      #3A2A33;
+    --rule-soft: #2C1F27;
+    --cta-bg:    #DFA0B6;
+    --cta-ink:   #241018;
+    --shade:     rgba(0, 0, 0, 0.28);
+    --peer-bg:   #241821;
+    --ward-bg:   #34202A;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:    #191014;
+  --surface:   #241821;
+  --ink:       #F2E7EB;
+  --ink-soft:  #BCA7B1;
+  --ink-mute:  #92808A;
+  --rose:      #DFA0B6;
+  --rose-wash: #34202A;
+  --brass:     #D8AE62;
+  --zellige:   #6FB6A8;
+  --zellige-wash: #1B2E2B;
+  --rule:      #3A2A33;
+  --rule-soft: #2C1F27;
+  --cta-bg:    #DFA0B6;
+  --cta-ink:   #241018;
+  --shade:     rgba(0, 0, 0, 0.28);
+  --peer-bg:   #241821;
+  --ward-bg:   #34202A;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  font-size: var(--t-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2 {
+  font-family: Marcellus, "Iowan Old Style", Georgia, serif;
+  font-weight: 400;
+  line-height: 1.25;
+  text-wrap: balance;
+  margin: 0;
+}
+h1 { font-size: var(--t-3); }
+h2 { font-size: var(--t-1); }
+p  { margin: 0; }
+
+.wrap {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: var(--s-5) var(--s-3) var(--s-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+/* ── marque ── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.brand::before {
+  content: "";
+  width: 1.6rem;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* ── carte ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: var(--s-4) var(--s-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  box-shadow: 0 2px 10px -6px var(--shade);
+}
+
+.lede { color: var(--ink-soft); }
+
+/* ── étiquette de rôle ── */
+.chip {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--rose-wash);
+  color: var(--rose);
+}
+.chip.calm { background: var(--zellige-wash); color: var(--zellige); }
+
+/* ── boutons ── */
+.row { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-top: var(--s-1); }
+button {
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0.75rem 1.4rem;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+button.go { background: var(--cta-bg); color: var(--cta-ink); border-color: transparent; }
+button:hover:not(:disabled) { transform: translateY(-1px); }
+button:disabled { opacity: 0.55; cursor: default; }
+button:focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
+
+/* ── conversation ── */
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: var(--s-1);
+}
+.msg {
+  max-width: 82%;
+  padding: 0.6rem 0.85rem;
+  border-radius: 13px;
+  border: 1px solid var(--rule-soft);
+  background: var(--peer-bg);
+}
+/* Les messages de la protégée sont alignés à droite, comme dans l'app. */
+.msg.ward { align-self: flex-end; background: var(--ward-bg); border-color: transparent; }
+.who {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.at {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  color: var(--ink-mute);
+  display: block;
+  margin-top: 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+.day {
+  align-self: center;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding: 0.5rem 0 0.2rem;
+}
+
+/* ── note de bas de page ── */
+.note {
+  font-size: var(--t--1);
+  color: var(--ink-mute);
+  border-top: 1px solid var(--rule-soft);
+  padding-top: var(--s-2);
+}
+.err { color: #C0473A; }
+
+.hide { display: none; }
+</style>
+</head>
+<body>
+
+<main class="wrap">
+
+  <p class="brand">Nikah&nbsp;Mate · Espace wali</p>
+
+  <!-- Un seul emplacement : le script y écrit l'état courant. -->
+  <div id="vue" aria-live="polite">
+    <div class="card"><p class="lede">Chargement…</p></div>
+  </div>
+
+</main>
+
+<script>
+// ══════════════ Espace wali ══════════════
+// Le wali n'a pas de compte. Le jeton dans l'adresse est sa seule clé :
+//   ?i=<jeton>  → une invitation à accepter ou décliner
+//   ?t=<jeton>  → l'accès en lecture à la conversation engagée
+// Tout est vérifié côté serveur ; cette page ne fait qu'afficher.
+
+const API = 'https://rjcqqgeoubhvsltnpizc.supabase.co/functions/v1/wali-link';
+
+const vue = document.getElementById('vue');
+const params = new URLSearchParams(location.search);
+const invitation = params.get('i');
+const acces = params.get('t');
+
+const echappe = (s) =>
+  String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+async function appel(corps) {
+  const r = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(corps),
+  });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || 'Une erreur est survenue.');
+  return data;
+}
+
+function carte(html) {
+  vue.innerHTML = `<div class="card">${html}</div>`;
+}
+
+function erreur(message) {
+  carte(`
+    <h1>Lien invalide</h1>
+    <p class="lede">${echappe(message)}</p>
+    <p class="note">Ce lien a peut-être déjà été utilisé, ou il a expiré.
+    Demandez à la personne qui vous a invité(e) de vous en envoyer un nouveau.</p>
+  `);
+}
+
+// ── 1. L'invitation ────────────────────────────────────────────────────────
+async function ouvrirInvitation() {
+  let info;
+  try {
+    info = await appel({ action: 'info', token: invitation });
+  } catch (e) {
+    return erreur(e.message);
+  }
+
+  if (info.expired) {
+    return erreur('Cette invitation a expiré.');
+  }
+
+  const LIEN = {
+    pere: 'son père', frere: 'son frère', oncle: 'son oncle', tuteur: 'son tuteur',
+  };
+  const lien = LIEN[info.relationship] || 'son wali';
+  const nom = echappe(info.candidateName);
+
+  carte(`
+    <p class="chip">Invitation</p>
+    <h1>${nom} vous a désigné(e) comme son wali.</h1>
+    <p class="lede">Elle vous présente comme <strong>${echappe(lien)}</strong> sur Nikah&nbsp;Mate,
+    une application de mariage musulmane.</p>
+    <p class="lede">Accepter ne vous engage à rien aujourd'hui : <strong>vous ne verrez
+    rien de ses échanges</strong>. Le jour où elle s'engagera dans une demande officielle,
+    vous recevrez un email et vous pourrez lire cette conversation — et uniquement celle-là.</p>
+    <div class="row">
+      <button class="go" id="oui">J'accepte</button>
+      <button id="non">Je refuse</button>
+    </div>
+    <p class="note">Aucun compte, aucun mot de passe. Ce clic suffit.</p>
+  `);
+
+  const oui = document.getElementById('oui');
+  const non = document.getElementById('non');
+
+  oui.onclick = async () => {
+    oui.disabled = non.disabled = true;
+    oui.textContent = 'Un instant…';
+    try {
+      await appel({ action: 'accept', token: invitation });
+      carte(`
+        <p class="chip calm">C'est fait</p>
+        <h1>Vous êtes le wali de ${nom}.</h1>
+        <p class="lede">Vous serez prévenu(e) par email si une demande officielle est
+        engagée. D'ici là, vous ne voyez rien — et c'est voulu.</p>
+        <p class="note">Vous pouvez fermer cette page.</p>
+      `);
+    } catch (e) {
+      erreur(e.message);
+    }
+  };
+
+  non.onclick = async () => {
+    oui.disabled = non.disabled = true;
+    try {
+      await appel({ action: 'decline', token: invitation });
+      carte(`
+        <h1>Invitation déclinée</h1>
+        <p class="lede">${nom} en sera informée et pourra désigner quelqu'un d'autre.</p>
+        <p class="note">Vous pouvez fermer cette page.</p>
+      `);
+    } catch (e) {
+      erreur(e.message);
+    }
+  };
+}
+
+// ── 2. La lecture ──────────────────────────────────────────────────────────
+const ETAPE = {
+  demande_officielle: 'Demande officielle',
+  fiancailles: 'Préparation des fiançailles',
+  mariage: 'Préparation du mariage',
+};
+
+const jour = new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+const heure = new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+async function ouvrirConversation() {
+  let data;
+  try {
+    data = await appel({ action: 'view', accessToken: acces });
+  } catch (e) {
+    return erreur(e.message);
+  }
+
+  const ward = echappe(data.wardName);
+  const c = data.conversation;
+
+  // Il est bien wali, mais rien n'est engagé : il n'y a rien à montrer.
+  if (!c) {
+    return carte(`
+      <p class="chip calm">En veille</p>
+      <h1>Rien à suivre pour le moment.</h1>
+      <p class="lede">${ward} n'est engagée dans aucune demande officielle.
+      Vous serez prévenu(e) par email dès que ce sera le cas.</p>
+      <p class="note">Vous restez son wali. Ce lien continuera de fonctionner.</p>
+    `);
+  }
+
+  const peer = echappe(c.peerName);
+  let dernierJour = '';
+  const lignes = c.messages.map((m) => {
+    const d = new Date(m.at);
+    const j = jour.format(d);
+    const separateur = j !== dernierJour ? `<p class="day">${echappe(j)}</p>` : '';
+    dernierJour = j;
+    const aElle = m.author === data.wardName;
+    return `${separateur}
+      <div class="msg ${aElle ? 'ward' : ''}">
+        <span class="who">${echappe(m.author)}</span>
+        ${echappe(m.body)}
+        <span class="at">${echappe(heure.format(d))}</span>
+      </div>`;
+  }).join('');
+
+  vue.innerHTML = `
+    <div class="card">
+      <p class="chip">${echappe(ETAPE[c.stage] || c.stage)}</p>
+      <h1>${ward} &amp; ${peer}</h1>
+      <p class="lede">Vous lisez cette conversation en tant que wali de ${ward}.
+      C'est la seule que vous voyez : ses autres échanges ne vous sont pas accessibles,
+      et elle n'en a plus d'autre en cours.</p>
+    </div>
+
+    <div class="card">
+      <h2>La conversation</h2>
+      <div class="thread">
+        ${lignes || '<p class="lede">Aucun message pour l\'instant.</p>'}
+      </div>
+      <p class="note">Lecture seule : vous ne pouvez pas écrire ici. Pour intervenir,
+      passez par ${ward} directement. Ce lien est personnel — ne le transmettez à personne.</p>
+    </div>
+  `;
+}
+
+// ── Aiguillage ─────────────────────────────────────────────────────────────
+if (invitation) {
+  ouvrirInvitation();
+} else if (acces) {
+  ouvrirConversation();
+} else {
+  carte(`
+    <h1>Espace wali</h1>
+    <p class="lede">Cette page s'ouvre depuis le lien que vous avez reçu par email.</p>
+    <p class="note">Si vous n'avez pas reçu d'email, demandez à la personne qui vous a
+    désigné(e) de renvoyer l'invitation depuis l'application.</p>
+  `);
+}
+</script>
+
+</body>
+</html>

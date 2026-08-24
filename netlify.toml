@@ -43,3 +43,13 @@
   for = "/ar/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# L'espace wali contient un jeton d'accès dans l'adresse. On empêche donc
+# l'indexation, la mise en cache, et la fuite de l'adresse vers un autre site
+# (un referer transmis suffirait à donner la clé à un tiers).
+[[headers]]
+  for = "/wali/*"
+  [headers.values]
+    Cache-Control = "no-store"
+    X-Robots-Tag = "noindex, nofollow"
+    Referrer-Policy = "no-referrer"

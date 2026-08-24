@@ -1,2 +1,5 @@
 User-agent: *
 Allow: /
+
+# L'espace wali s'ouvre avec un jeton privé : rien à indexer ici.
+Disallow: /wali/

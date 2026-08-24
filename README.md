@@ -14,6 +14,7 @@ Le code de l'application, lui, vit dans un dépôt séparé et privé.
 | `assets/app.js` | Les animations des quatre écrans de téléphone |
 | `assets/motif.png` | Le médaillon du logo, utilisé comme pochoir de fond |
 | `assets/og.png` | L'image qui s'affiche quand on partage le lien |
+| `wali/index.html` | L'espace wali : page autonome, ni CSS ni JS partagés |
 | `netlify.toml` | Ce que Netlify publie, et les en-têtes HTTP |
 
 ## La voir en local
@@ -76,6 +77,33 @@ WhatsApp ou les réseaux sociaux restera cassé :
 - `<meta property="og:image" content=".../assets/og.png">`
 
 Elles sont regroupées en haut du fichier, sous un commentaire qui les signale.
+
+## L'espace wali
+
+Le wali **n'a pas de compte** dans l'application. Il reçoit un lien par email et
+tout se passe ici, dans le navigateur :
+
+| Adresse | Ce qu'elle fait |
+|---|---|
+| `/wali/?i=<jeton>` | L'invitation : « J'accepte » / « Je refuse » |
+| `/wali/?t=<jeton>` | La lecture de la conversation engagée |
+
+La page appelle une seule fonction serveur, `wali-link`, hébergée sur Supabase.
+Elle ne décide de rien : c'est la base de données qui vérifie le jeton.
+
+**Deux jetons, et c'est volontaire.** Celui de l'invitation meurt à
+l'acceptation ; un second, permanent, est émis à ce moment-là. Un lien
+d'invitation oublié dans une boîte mail n'ouvre donc plus rien. Le jeton de
+lecture, lui, est révoqué dès que la relation prend fin.
+
+> ⚠️ **Le jeton dans l'adresse est un mot de passe.** C'est pourquoi cette page
+> est en `noindex`, sans cache, et sans referer (`netlify.toml` + `robots.txt`) :
+> un referer transmis suffirait à donner la clé au site suivant. Pour la même
+> raison, la vue du wali ne contient **aucune photo** — uniquement du texte.
+
+La page est **autonome** : elle ne charge ni `styles.css` ni `app.js`. Elle
+recopie les jetons de couleur de la page d'accueil. C'est un doublon assumé —
+en échange, retoucher la page d'accueil ne peut jamais casser l'espace wali.
 
 ## Les deux langues
 
